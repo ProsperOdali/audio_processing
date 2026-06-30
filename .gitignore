@@ -1,0 +1,16 @@
+# Audio files
+*.wav
+Vendor vertical training recording.mp3
+
+# Audacity projects
+*.aup3
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
