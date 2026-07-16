@@ -1,16 +1,12 @@
 import librosa
 import numpy as np
-import soundfile as sf
 
-def denoise(audio_filename: str,
+def denoise(signal: np.ndarray,
              method: str="hard",
              noise_fraction: float=0.1)-> np.ndarray:
-    
-    # Load audio
-    data, sr = librosa.load(audio_filename, sr=None)
 
     # Covert to STFT
-    stft_matrix = librosa.stft(data)
+    stft_matrix = librosa.stft(signal)
 
     # Estimate noise
     frame_energy = np.sum(np.abs(stft_matrix)**2, axis=0)
@@ -32,13 +28,13 @@ def denoise(audio_filename: str,
         # Inverse STFT
         clean = librosa.istft(stft_filtered)
 
-        return clean, sr
+        return clean
     
     elif method == "soft":
         # Compute magnitude
         magnitude = np.abs(stft_matrix)
 
-        #Build the soft gating
+        #Build the soft gating 
         lower_ratio = 1.0
         upper_ratio = 5.0
         epsilon = 1e-10
@@ -52,4 +48,4 @@ def denoise(audio_filename: str,
         # Inverse STFT
         clean = librosa.istft(stft_filtered)
         
-        return clean, sr
+        return clean
